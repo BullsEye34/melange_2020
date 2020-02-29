@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:melange_2020/Register.dart';
 import 'package:melange_2020/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -10,17 +11,31 @@ class events extends StatefulWidget {
 }
 
 class _eventsState extends State<events> {
-  var isAdmin;
+  bool isAdmin = false;
+  var uid;
   doThis() async{
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    final uid = user.uid;
-    print(uid);
+
+    final uuid = user.uid;
+    var doc = Firestore.instance.collection('Users').document(uuid);
+    bool whatever = await doc.get().then((value) => value.data['isAdmin']);
+    setState(() {
+      if(whatever){
+        isAdmin=true;
+      }
+    });
+
+
+    setState(() {
+      uid=uuid;
+    });
   }
   @override
   void initState() {
+
+    doThis();
     // TODO: implement initState
     super.initState();
-    doThis();
   }
   @override
   Widget build(BuildContext context) {
@@ -34,6 +49,12 @@ class _eventsState extends State<events> {
         systemNavigationBarColor: Color(0xffffffff)));
     return Scaffold(
         appBar: AppBar(
+          leading: isAdmin? FlatButton(onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => register()),
+            );
+          }, child: Icon(Icons.add, color: Colors.white,), ): null,
           elevation: 0.0,
           backgroundColor: Color(0xffFF7700),
           centerTitle: true,
@@ -41,6 +62,7 @@ class _eventsState extends State<events> {
             "Melange 2020",
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
           ),
+
           actions: <Widget>[
             FlatButton(
               onPressed: () {
