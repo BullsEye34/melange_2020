@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "130227385068",
+    "firebase_url": "https://fest-management-539c8.firebaseio.com",
+    "project_id": "fest-management-539c8",
+    "storage_bucket": "fest-management-539c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130227385068:android:386df60e0591842a",
+        "android_client_info": {
+          "package_name": "ga.vamshiprasad.fest_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130227385068-3j5tta6s042p2numhi8ku78ljc4c6kk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdscIz4YBhKRbYTKzOEHp-V0b3Yv04Umk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130227385068-3j5tta6s042p2numhi8ku78ljc4c6kk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130227385068:android:95704e19f961c5b0e8abc9",
+        "android_client_info": {
+          "package_name": "ga.vamshiprasad.melange_2020"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130227385068-3j5tta6s042p2numhi8ku78ljc4c6kk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdscIz4YBhKRbYTKzOEHp-V0b3Yv04Umk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130227385068-3j5tta6s042p2numhi8ku78ljc4c6kk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
