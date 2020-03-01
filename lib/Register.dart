@@ -197,7 +197,7 @@ class _registerState extends State<register> {
             (value) async{
               var somee = await FirebaseAuth.instance.currentUser();
               var some = await Firestore.instance.collection('Users').document(somee.uid).setData({
-                'isAdmin': true,
+                'isAdmin': false,
                 'name': '${name.text}',
                 'number': '${num.text}'
 

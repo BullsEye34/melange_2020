@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:melange_2020/Register.dart';
 import 'package:melange_2020/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class events extends StatefulWidget {
   @override
@@ -13,30 +14,31 @@ class events extends StatefulWidget {
 class _eventsState extends State<events> {
   bool isAdmin = false;
   var uid;
-  doThis() async{
+
+  doThis() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
     final uuid = user.uid;
     var doc = Firestore.instance.collection('Users').document(uuid);
     bool whatever = await doc.get().then((value) => value.data['isAdmin']);
     setState(() {
-      if(whatever){
-        isAdmin=true;
+      if (whatever) {
+        isAdmin = true;
       }
     });
 
-
     setState(() {
-      uid=uuid;
+      uid = uuid;
     });
   }
+
   @override
   void initState() {
-
     doThis();
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
@@ -49,12 +51,20 @@ class _eventsState extends State<events> {
         systemNavigationBarColor: Color(0xffffffff)));
     return Scaffold(
         appBar: AppBar(
-          leading: isAdmin? FlatButton(onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => register()),
-            );
-          }, child: Icon(Icons.add, color: Colors.white,), ): null,
+          leading: isAdmin
+              ? FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => register()),
+                    );
+                  },
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                )
+              : null,
           elevation: 0.0,
           backgroundColor: Color(0xffFF7700),
           centerTitle: true,
@@ -62,7 +72,6 @@ class _eventsState extends State<events> {
             "Melange 2020",
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
           ),
-
           actions: <Widget>[
             FlatButton(
               onPressed: () {
@@ -85,7 +94,8 @@ class _eventsState extends State<events> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     "Registrations",
-                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500, color: Color(0xff6a6a6a)),
                   ),
                 ),
               ),
@@ -93,11 +103,15 @@ class _eventsState extends State<events> {
                 height: 10.0,
               ),
               MainStage(),
+              SizedBox(height: 20.0,),
               OffStage(),
+              SizedBox(height: 20.0,),
               Sports(),
+              SizedBox(height: 20.0,),
               Gaming(),
-              Technical()
-              
+              SizedBox(height: 20.0,),
+              Technical(),
+              SizedBox(height: 20.0,),
             ],
           ),
         ));
@@ -131,29 +145,52 @@ class _eventsState extends State<events> {
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (BuildContext context, int index) {
-
-                          return
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 18.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xff177BC8), width: 1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                width: 150,
-                                height: 50,
-                                child: Center(
-                                  child: Text(
-                                    snapshot.data.documents[index]['title'].toString(), style: TextStyle(fontSize: 18.0, color: Color(0xffFF7700), fontWeight: FontWeight.w400),),
-                                ),
+                          return Padding(
+                            padding: EdgeInsets.only(left: 18.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(0xff177BC8), width: 0.2),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            );
+                              width: 150,
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.documents[index]['title']
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff00B3A6),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  SvgPicture.network(
+                                    snapshot.data.documents[index]['img']
+                                        .toString(),
+                                    color: Colors.red,
+                                    semanticsLabel: 'A red up arrow',
+                                    width: 80.0,
+                                    height: 80.0,
+                                  ),
+                                  Text(
+                                      "\u20B9" +
+                                          snapshot.data.documents[index]['rate']
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Color(0xff6A6A6A),
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
                   }),
-
             ],
           );
         });
@@ -187,32 +224,57 @@ class _eventsState extends State<events> {
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 18.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xff177BC8), width: 1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                width: 150,
-                                height: 50,
-                                child: Center(
-                                  child: Text(
-                                    snapshot.data.documents[index]['title'].toString(), style: TextStyle(fontSize: 18.0, color: Color(0xffFF7700), fontWeight: FontWeight.w400),),
-                                ),
+                          return Padding(
+                            padding: EdgeInsets.only(left: 18.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(0xff177BC8), width: 0.2),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            );
+                              width: 150,
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.documents[index]['title']
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff00B3A6),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  SvgPicture.network(
+                                    snapshot.data.documents[index]['img']
+                                        .toString(),
+                                    color: Colors.red,
+                                    semanticsLabel: 'A red up arrow',
+                                    width: 80.0,
+                                    height: 80.0,
+                                  ),
+                                  Text(
+                                      "\u20B9" +
+                                          snapshot.data.documents[index]['rate']
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Color(0xff6A6A6A),
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
                   }),
-
             ],
           );
         });
   }
+
   Widget Sports() {
     return StreamBuilder(
         stream: Firestore.instance.collection('list').snapshots(),
@@ -241,32 +303,57 @@ class _eventsState extends State<events> {
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 18.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xff177BC8), width: 1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                width: 150,
-                                height: 50,
-                                child: Center(
-                                  child: Text(
-                                    snapshot.data.documents[index]['title'].toString(), style: TextStyle(fontSize: 18.0, color: Color(0xffFF7700), fontWeight: FontWeight.w400),),
-                                ),
+                          return Padding(
+                            padding: EdgeInsets.only(left: 18.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(0xff177BC8), width: 0.2),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            );
+                              width: 150,
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.documents[index]['title']
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff00B3A6),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  SvgPicture.network(
+                                    snapshot.data.documents[index]['img']
+                                        .toString(),
+                                    color: Colors.red,
+                                    semanticsLabel: 'A red up arrow',
+                                    width: 80.0,
+                                    height: 80.0,
+                                  ),
+                                  Text(
+                                      "\u20B9" +
+                                          snapshot.data.documents[index]['rate']
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Color(0xff6A6A6A),
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
                   }),
-
             ],
           );
         });
   }
+
   Widget Gaming() {
     return StreamBuilder(
         stream: Firestore.instance.collection('list').snapshots(),
@@ -290,37 +377,62 @@ class _eventsState extends State<events> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     return Container(
-                      height: 150,
+                      height: 160,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 18.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xff177BC8), width: 1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                width: 150,
-                                height: 50,
-                                child: Center(
-                                  child: Text(
-                                    snapshot.data.documents[index]['title'].toString(), style: TextStyle(fontSize: 18.0, color: Color(0xffFF7700), fontWeight: FontWeight.w400),),
-                                ),
+                          return Padding(
+                            padding: EdgeInsets.only(left: 18.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(0xff177BC8), width: 0.2),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            );
+                              width: 150,
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.documents[index]['title']
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff00B3A6),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  SvgPicture.network(
+                                    snapshot.data.documents[index]['img']
+                                        .toString(),
+                                    color: Colors.red,
+                                    semanticsLabel: 'A red up arrow',
+                                    width: 80.0,
+                                    height: 80.0,
+                                  ),
+                                  Text(
+                                      "\u20B9" +
+                                          snapshot.data.documents[index]['rate']
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Color(0xff6A6A6A),
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
                   }),
-
             ],
           );
         });
   }
+
   Widget Technical() {
     return StreamBuilder(
         stream: Firestore.instance.collection('list').snapshots(),
@@ -344,33 +456,57 @@ class _eventsState extends State<events> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     return Container(
-                      height: 150,
+                      height: 170,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 18.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xff177BC8), width: 1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                width: 150,
-                                height: 50,
-                                child: Center(
-                                  child: Text(
-                                    snapshot.data.documents[index]['title'].toString(), style: TextStyle(fontSize: 18.0, color: Color(0xffFF7700), fontWeight: FontWeight.w400),),
-                                ),
+                          return Padding(
+                            padding: EdgeInsets.only(left: 18.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(0xff177BC8), width: 0.2),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            );
+                              width: 150,
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.documents[index]['title']
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff00B3A6),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  SvgPicture.network(
+                                    snapshot.data.documents[index]['img']
+                                        .toString(),
+                                    color: Colors.red,
+                                    semanticsLabel: 'A red up arrow',
+                                    width: 80.0,
+                                    height: 80.0,
+                                  ),
+                                  Text(
+                                      "\u20B9" +
+                                          snapshot.data.documents[index]['rate']
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Color(0xff6A6A6A),
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
                   }),
-
             ],
           );
         });
